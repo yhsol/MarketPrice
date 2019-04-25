@@ -6,12 +6,15 @@
   "main": "src/index.js",
   "dependencies": {
     "axios": "0.18.0",
+    "etherscan-api": "10.0.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-scripts": "2.1.8",
     "react-slick": "0.24.0",
     "react-slick-slider": "0.15.10",
-    "styled-components": "4.2.0"
+    "styled-components": "4.2.0",
+    "truffle-contract": "4.0.13",
+    "web3": "1.0.0-beta.52"
   },
   "devDependencies": {
     "typescript": "3.3.3"

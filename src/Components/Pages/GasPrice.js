@@ -1,27 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useGasPriceApi } from "../Api";
+import React, { useState } from "react";
+import { HeaderTitle, ItemValue, ItemSubTitle } from "../Style";
+import { useInterval, FetchGasPrice } from "../Api/UseApi";
 
 const GasPrice = () => {
-  const [results, setResults] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { results, loading, error } = FetchGasPrice();
+  const [delay, setDelay] = useState(1000);
 
-  useEffect(() => {
-    try {
-      const fetchData = async () => {
-        const { data } = await useGasPriceApi.gasPrice();
-        setResults(data);
-        console.log(data.safeLow);
-      };
-      fetchData();
-    } catch (error) {
-      console.error(error);
-      setError("Can't find infomation!");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-  console.log(results);
+  // FetchGasPrice();
+
+  useInterval(() => FetchGasPrice, !loading ? delay : null);
 
   return (
     <>
@@ -29,14 +16,9 @@ const GasPrice = () => {
         "Loading..."
       ) : (
         <div>
-          <h2>GasPrice</h2>
-          <div>
-            {results &&
-              results.length > 0 &&
-              results.map((result, index) => (
-                <div key={index}>{result.safeLow}</div>
-              ))}
-          </div>
+          <HeaderTitle>GasPrice</HeaderTitle>
+          <ItemSubTitle>{`Fast (< 1 min to confirm)`}</ItemSubTitle>
+          <ItemValue>{results && results.length > 0 && results}</ItemValue>
           <div>{error && error}</div>
         </div>
       )}

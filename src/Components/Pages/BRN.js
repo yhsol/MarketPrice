@@ -1,28 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useExaApi } from "../Api";
+import React, { useState } from "react";
+import { HeaderTitle, ItemValue, ItemSubTitle, ItemSub } from "../Style";
+import { BrnApi, useInterval } from "../Api/UseApi";
 
 const BRN = () => {
-  const [results, setResults] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { results, loading, error } = BrnApi();
+  const [delay, setDelay] = useState(1000);
 
-  useEffect(() => {
-    try {
-      const fetchData = async () => {
-        const {
-          data: { data }
-        } = await useExaApi.brnApi();
-        setResults(data);
-        // console.log(data);
-      };
-      fetchData();
-    } catch (error) {
-      console.error(error);
-      setError("Can't find infomation!");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  // BrnApi();
+
+  // useInterval(() => console.log("brn"), !loading ? delay : null);
 
   return (
     <>
@@ -30,14 +16,16 @@ const BRN = () => {
         "Loading..."
       ) : (
         <div>
-          <h2>BRN</h2>
-          <div>
-            {results &&
-              results.length > 0 &&
-              results.map((result, index) => (
-                <div key={index}>{result.price}</div>
-              ))}
-          </div>
+          <HeaderTitle>
+            BRN<ItemSub>LATEST PRICE(ETH)</ItemSub>
+          </HeaderTitle>
+          <ItemValue>
+            {results && results.length > 0 && results[0].price}
+          </ItemValue>
+
+          <ItemSubTitle>
+            {results && results.length > 0 && results[0].time}
+          </ItemSubTitle>
           <div>{error && error}</div>
         </div>
       )}

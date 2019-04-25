@@ -4,6 +4,7 @@ import styled from "styled-components";
 import BRN from "./Pages/BRN";
 import EVE from "./Pages/EVE";
 import GasPrice from "./Pages/GasPrice";
+import EtherValue from "./Pages/EtherValue";
 
 const Items = styled.div`
   text-align: center;
@@ -41,7 +42,7 @@ export default class Section extends Component {
             </h1>
           </Items>
           <Items>
-            <h1>Etherscan</h1>
+            <EtherValue />
           </Items>
         </Slider>
       </div>

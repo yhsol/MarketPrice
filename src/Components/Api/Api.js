@@ -70,7 +70,7 @@ const exaApi = axios.create({
 export const useExaApi = {
   brnApi: () =>
     exaApi.post("/getTradeByPair", {
-      pairName: "BRN_ETH"
+      pairName: "ETH_BTC"
     }),
   eveApi: () =>
     exaApi.post("/getTradeByPair", {
@@ -98,4 +98,21 @@ const gasPriceApi = axios.create({
 
 export const useGasPriceApi = {
   gasPrice: () => gasPriceApi.get("/gasPriceOracle")
+};
+
+const etherScanApi = axios.create({
+  baseURL: "https://api.etherscan.io",
+  method: "GET",
+  crossDomain: true
+});
+
+export const useEtherBalanceApi = {
+  ehterBalanceApi: () =>
+    etherScanApi.get(
+      "/api?module=account&action=balance&address=0xAA5c4244F05c92781C4F259913319d8ba1aCF05E&tag=latest&apikey=ZV5Z6XBZ3GTM91K5JKBZDYUKWJTU7S194V"
+    )
+};
+
+export const useEtherPriceApi = {
+  ehterPriceApi: () => etherScanApi.get("/api?module=stats&action=ethprice")
 };
