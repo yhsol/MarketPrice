@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   useExaApi,
   useGasPriceApi,
-  useEtherScanApi,
   useEtherBalanceApi,
   useEtherPriceApi
 } from "./Api";
@@ -27,21 +26,22 @@ export function useInterval(callback, delay) {
   }, [delay]);
 }
 
-export const BrnApi = () => {
+export const FetchBrnApi = () => {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  useInterval(async () => {
+    const {
+      data: { data }
+    } = await useExaApi.brnApi();
+    if (data) setResults(data);
+    // console.log(data);
+  }, 1000);
+
   useEffect(() => {
     try {
-      const fetchData = async () => {
-        const {
-          data: { data }
-        } = await useExaApi.brnApi();
-        setResults(data);
-        // console.log(data);
-      };
-      fetchData();
+      setLoading(true);
     } catch (error) {
       console.error(error);
       setError("Can't find infomation!");
@@ -53,21 +53,22 @@ export const BrnApi = () => {
   return { results, loading, error };
 };
 
-export const EveApi = () => {
+export const FetchEveApi = () => {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  useInterval(async () => {
+    const {
+      data: { data }
+    } = await useExaApi.eveApi();
+    if (data) setResults(data);
+    // console.log(data);
+  }, 1000);
+
   useEffect(() => {
     try {
-      async function fetchData() {
-        const {
-          data: { data }
-        } = await useExaApi.eveApi();
-        setResults(data);
-        // console.log(data);
-      }
-      fetchData();
+      setLoading(true);
     } catch (error) {
       console.error(error);
       setError("Can't find infomation!");
@@ -79,21 +80,22 @@ export const EveApi = () => {
   return { results, loading, error };
 };
 
-export const FetchGasPrice = () => {
+export const FetchGasPriceApi = () => {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  useInterval(async () => {
+    const {
+      data: { safeLow: result }
+    } = await useGasPriceApi.gasPrice();
+    if (result) setResults(result);
+    // console.log(result);
+  }, 1000);
+
   useEffect(() => {
     try {
-      const fetchData = async () => {
-        const {
-          data: { safeLow: result }
-        } = await useGasPriceApi.gasPrice();
-        setResults(result);
-        // console.log(result.safeLow);
-      };
-      fetchData();
+      setLoading(true);
     } catch (error) {
       console.error(error);
       setError("Can't find infomation!");
@@ -111,16 +113,17 @@ export const FetchEtherBalance = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  useInterval(async () => {
+    const {
+      data: { result }
+    } = await useEtherBalanceApi.ehterBalanceApi();
+    if (result) setResults(result);
+    // console.log(results);
+  }, 1000);
+
   useEffect(() => {
     try {
-      const fetchData = async () => {
-        const {
-          data: { result }
-        } = await useEtherBalanceApi.ehterBalanceApi();
-        setResults(result);
-        // console.log(result.safeLow);
-      };
-      fetchData();
+      setLoading(true);
     } catch (error) {
       console.error(error);
       setError("Can't find infomation!");
@@ -135,27 +138,36 @@ export const FetchEtherBalance = () => {
 
 export const FetchEtherPrice = () => {
   const [priceResults, setPriceResults] = useState(null);
-  const [priceloading, setLoading] = useState(true);
-  const [priceerror, setError] = useState(null);
+  const [priceloading, setPriceLoading] = useState(true);
+  const [priceerror, setPriceError] = useState(null);
+
+  useInterval(async () => {
+    const {
+      data: {
+        result: { ethusd: result }
+      }
+    } = await useEtherPriceApi.ehterPriceApi();
+    if (result) setPriceResults(result);
+    // console.log(result);
+  }, 1000);
 
   useEffect(() => {
     try {
-      const fetchData = async () => {
-        const {
-          data: { result }
-        } = await useEtherPriceApi.ehterPriceApi();
-        setPriceResults(result);
-        // console.log(result.safeLow);
-      };
-      fetchData();
+      setPriceError(true);
     } catch (error) {
       console.error(error);
-      setError("Can't find infomation!");
+      setPriceLoading("Can't find infomation!");
     } finally {
-      setLoading(false);
+      setPriceError(false);
     }
   }, []);
   // console.log(results);
 
   return { priceResults, priceloading, priceerror };
 };
+
+var api = require("etherscan-api").init("ZV5Z6XBZ3GTM91K5JKBZDYUKWJTU7S194V");
+var balance = api.account.balance("0xd0791e4E384aDec5F3C5fb5f4D0C17Ac8Cb47EDE");
+balance.then(function(balanceData) {
+  console.log(balanceData);
+});

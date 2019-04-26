@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { HeaderTitle, ItemValue, ItemSubTitle, ItemSub } from "../Style";
-import { BrnApi, useInterval } from "../Api/UseApi";
+import { FetchBrnApi } from "../Api/UseApi";
 
 const BRN = () => {
-  const { results, loading, error } = BrnApi();
-  const [delay, setDelay] = useState(1000);
+  const { results, loading, error } = FetchBrnApi();
+  // const [delay, setDelay] = useState(1000);
 
   // BrnApi();
-
-  // useInterval(() => console.log("brn"), !loading ? delay : null);
+  // useInterval(() => BrnApi(), !loading ? delay : null);
 
   return (
     <>

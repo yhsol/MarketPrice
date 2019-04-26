@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { HeaderTitle, ItemValue, ItemSubTitle, ItemValueSmall } from "../Style";
-import { useInterval, FetchEtherBalance } from "../Api/UseApi";
+import React from "react";
+import { HeaderTitle, ItemSubTitle, ItemValueSmall } from "../Style";
+import { FetchEtherBalance, FetchEtherPrice } from "../Api/UseApi";
+import Web3 from "web3";
 
 const EtherValue = () => {
   const { results, loading, error } = FetchEtherBalance();
-  const [delay, setDelay] = useState(1000);
-
-  // FetchGasPrice();
-
-  useInterval(() => FetchEtherBalance, !loading ? delay : null);
-
+  const { priceResults, priceloading, priceerror } = FetchEtherPrice();
+  let web3 = window.web3;
+  var value = web3.fromWei(results, "ether");
+  console.log(value);
+  const currentValue = value * priceResults;
   return (
     <>
       {loading ? (
@@ -17,10 +17,10 @@ const EtherValue = () => {
       ) : (
         <div>
           <HeaderTitle>EtherValue</HeaderTitle>
-          <ItemSubTitle>balance and price</ItemSubTitle>
-          <ItemValueSmall>
-            {results && results.length > 0 && results}
-          </ItemValueSmall>
+          <ItemSubTitle>balance</ItemSubTitle>
+          <ItemValueSmall>{value}</ItemValueSmall>
+          <ItemSubTitle>price</ItemSubTitle>
+          <ItemValueSmall>{currentValue}</ItemValueSmall>
           <div>{error && error}</div>
         </div>
       )}

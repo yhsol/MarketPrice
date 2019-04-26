@@ -5,7 +5,6 @@ import BRN from "./Pages/BRN";
 import EVE from "./Pages/EVE";
 import GasPrice from "./Pages/GasPrice";
 import EtherValue from "./Pages/EtherValue";
-import EtherWeb3 from "./Pages/Web3";
 
 const Items = styled.div`
   text-align: center;

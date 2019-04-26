@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { HeaderTitle, ItemValue, ItemSubTitle, ItemSub } from "../Style";
-import { useInterval, EveApi } from "../Api/UseApi";
+import { FetchEveApi } from "../Api/UseApi";
 
 const EVE = () => {
-  const { results, loading, error } = EveApi();
-  const [delay, setDelay] = useState(1000);
-
-  // EveApi();
-
-  useInterval(() => EveApi, !loading ? delay : null);
+  const { results, loading, error } = FetchEveApi();
 
   return (
     <>
